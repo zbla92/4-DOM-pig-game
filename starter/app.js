@@ -21,13 +21,15 @@ var scores, roundScore, activePlayer, finalRes;
 
 // Nacin za pristup i mjenjanje HTMLa  unutar tog IDa
 // document.querySelector('#current-' + activePlayer).innerHTML = '<strong>' + dice + '</strong>';
+// document.querySelector('#current-' + activePlayer).innerHTML = '<strong>' + dice + '</strong>';
 
 
 
 // HIDING THE DICE
 var diceDOM2 = document.querySelector('.dice-2');
-var diceDOM1 = document.querySelector('.dice=1');
-diceDOM.style.display = 'none';
+var diceDOM1 = document.querySelector('.dice-1');
+diceDOM1.style.display = 'none';
+diceDOM2.style.display = 'none';
 
 newGame();
 
@@ -52,8 +54,9 @@ function newGame(){
     document.querySelector('.player-0-panel').classList.add('active');
     document.querySelector('.player-1-panel').classList.remove('active');
     
-    //enable back buttons
-    diceDOM.style.display = 'none';
+    //enable back buttons and kill the dice
+    diceDOM1.style.display = 'none';
+    diceDOM2.style.display = 'none';
     document.querySelector(".btn-roll").disabled = false;
     document.querySelector(".btn-hold").disabled = false;
     
@@ -89,14 +92,31 @@ var lastDice;
 document.querySelector('.btn-roll').addEventListener('click',function btn(){
     //// Rolling the dice
         
-       var dice = Math.round(Math.random() * 5 + 1);
+       var dice_1 = Math.round(Math.random() * 5 + 1);  
+       var dice_2 = Math.round(Math.random() * 5 + 1);
        
         
-console.log(dice);
+console.log(dice_1, dice_2);
     //Ovako se mjenja ali samo vrijednost ne mozemo mjenjat HTML code
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
+    diceDOM1.style.display = 'block';
+    diceDOM2.style.display = 'block';
     
+    diceDOM1.src = 'dice-' + dice_1 + '.png';
+    diceDOM2.src = 'dice-' + dice_2 + '.png';
+    
+    if( dice_1 !== 1 && dice_2 !== 1 ){
+        // calculate the round score
+        roundScore = roundScore + (dice_1 + dice_2);
+        // update  UI
+        console.log(roundScore);
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    }else{
+        nextPLaya();
+    }
+    
+    
+    
+    /*
       if (dice === 6 && lastDice === 6) {
             //Player looses score
             scores[activePlayer] = 0;
@@ -111,6 +131,8 @@ console.log(dice);
             nextPLaya();
         }
         lastDice = dice;
+        
+        */
 });
 
 
